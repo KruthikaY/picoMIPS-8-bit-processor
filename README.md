@@ -6,41 +6,42 @@ This repository contains the full RTL implementation, testbenches, simulation ou
 
 ## 📁 Repository Structure
 
-├── src/ # Core processor RTL modules
-│ ├── alu.sv
-│ ├── control_unit.sv
-│ ├── counter.sv
-│ ├── instruction_memory.sv
-│ ├── picoMIPS.sv
-│ ├── picoMIPS4test.sv
-│ ├── program_counter.sv
-│ ├── register_file.sv
-│ └── wave.sv
-│
-├── testbenches/ # Individual module testbenches
-│ ├── alu_tb.sv
-│ ├── control_unit_tb.sv
-│ ├── instruction_memory_tb.sv
-│ ├── picoMIPS_tb.sv
-│ ├── program_counter_tb.sv
-│ ├── register_file_tb.sv
-│ └── waveform_rom_tb.sv
-│
-├── hex files/ # Preloaded HEX files for simulation and synthesis
-│ ├── program.hex # Gaussian smoothing program
-│ └── wave.hex # Input waveform samples
-│
-├── Oput_files/ # Simulation and synthesis outputs
-│ ├── Block_diagram.png
-│ ├── Design_Details.png
-│ ├── ES_Output Video.mp4
-│ ├── FPGA_Output.png
-│ ├── ModelSim_Output.png
-│ ├── Output
-│ └── Resource_Usage.png
-│
-├── picoMIPS-Flow Summary.rpt # Intel Quartus synthesis report
-└── README.md # Project documentation (this file)
+- `src/` – Core SystemVerilog modules  
+  - `alu.sv` – ALU with truncated multiplication and signed arithmetic  
+  - `control_unit.sv` – FSM control logic for opcode decoding  
+  - `counter.sv` – 3-bit counter for address sequencing  
+  - `instruction_memory.sv` – Program ROM reading `program.hex`  
+  - `picoMIPS.sv` – Main top-level processor design  
+  - `picoMIPS4test.sv` – Version for ModelSim waveform visualization  
+  - `program_counter.sv` – Program Counter logic  
+  - `register_file.sv` – Register set with 2 read and 1 write port  
+  - `wave.sv` – ROM module to read waveform values from `wave.hex`  
+
+- `testbenches/` – SystemVerilog testbenches for simulation  
+  - `alu_tb.sv` – ALU operation tests  
+  - `control_unit_tb.sv` – FSM output validation  
+  - `instruction_memory_tb.sv` – ROM read test  
+  - `picoMIPS_tb.sv` – Top-level simulation testbench  
+  - `program_counter_tb.sv` – PC increment/reset logic test  
+  - `register_file_tb.sv` – Register read/write operations  
+  - `waveform_rom_tb.sv` – Waveform ROM content output check  
+
+- `hex files/` – Input data for ROM modules  
+  - `program.hex` – Instruction memory image  
+  - `wave.hex` – ROM input waveform for smoothing  
+
+- `Oput_files/` – Simulation and implementation results  
+  - `Block_diagram.png` – Top-level architecture schematic  
+  - `Design_Details.png` – High-level datapath and control overview  
+  - `ES_Output Video.mp4` – Real-time FPGA LED output recording  
+  - `FPGA_Output.png` – Final FPGA LED result  
+  - `ModelSim_Output.png` – Screenshot of successful ModelSim run  
+  - `Output` – Quantized smoothed waveform output  
+  - `Resource_Usage.png` – FPGA resource utilization (ALMs, regs, etc.)  
+
+- `picoMIPS-Flow Summary.rpt` – Intel Quartus synthesis and fitting report  
+- `README.md` – Project documentation and setup guide  
+
 
 
 ---
