@@ -4,7 +4,7 @@
 
 module instruction_memory_tb;
 
-    logic [7:0] address;           // Program Counter (0ñ63)
+    logic [7:0] address;           // Program Counter 
     logic [15:0] instruction;      // Output instruction
 
     // Instantiate the instruction memory module
