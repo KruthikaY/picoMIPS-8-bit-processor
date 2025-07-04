@@ -1,0 +1,60 @@
+2000    // IN R0             ; Read input index i into R0
+EA00    // LOADI R5, 0       ; Clear accumulator R5 = 0
+
+// --- First convolution term: W[i-2] * 17 ---
+F400    // MOVE R2, R0       ; R2 = i
+B4FE    // ADDI R2, -2       ; R2 = i - 2   (5 - 2 = 3)
+4600    // LOADW R3          ; Load W[3] from wave ROM (should yield 0x1A = 26)
+02FF    // NOP               ; Wait for wave ROM update
+E811    // LOADI R4, 17      ; LOADI R4, 17   (Kernel value 17)
+1700    // MUL R3, R4        ; Multiply: 26 * 17 = 442, product[14:7] = 3
+02FF    // NOP               ; Wait for multiplier result
+0AC0    // ADD R5, R3        ; R5 = 0 + 3 = 3
+02FF    // NOP
+
+// --- Second convolution term: W[i-1] * 29 ---
+F400    // MOVE R2, R0       ; R2 = i
+B4FF    // ADDI R2, -1       ; R2 = i - 1   (5 - 1 = 4)
+4600    // LOADW R3          ; Load W[4] (should yield 0x10 = 16)
+02FF    // NOP
+E81D    // LOADI R4, 29      ; LOADI R4, 29   (Kernel value 29)
+1700    // MUL R3, R4        ; Multiply: 16 * 29 = 464, product[14:7] = 3
+02FF    // NOP
+0AC0    // ADD R5, R3        ; R5 = 3 + 3 = 6
+02FF    // NOP
+
+// --- Third convolution term: W[i] * 35 ---
+F400    // MOVE R2, R0       ; R2 = i (5)
+4600    // LOADW R3          ; Load W[5] (should yield 0x13 = 19)
+02FF    // NOP
+E823    // LOADI R4, 35      ; LOADI R4, 35   (Kernel value 35)
+1700    // MUL R3, R4        ; Multiply: 19 * 35 = 665, product[14:7] = 5
+02FF    // NOP
+0AC0    // ADD R5, R3        ; R5 = 6 + 5 = 11
+02FF    // NOP
+
+// --- Fourth convolution term: W[i+1] * 28 ---
+F400    // MOVE R2, R0       ; R2 = i (5)
+B401    // ADDI R2, +1       ; R2 = i + 1   (5 + 1 = 6)
+4600    // LOADW R3          ; Load W[6] (should yield 0x2A = 42)
+02FF    // NOP
+E81C    // LOADI R4, 28      ; LOADI R4, 28   (Kernel value 28)
+1700    // MUL R3, R4        ; Multiply: 42 * 28 = 1176, product[14:7] = 9
+02FF    // NOP
+0AC0    // ADD R5, R3        ; R5 = 11 + 9 = 20
+02FF    // NOP
+
+// --- Fifth convolution term: W[i+2] * 17 ---
+F400    // MOVE R2, R0       ; R2 = i (5)
+B402    // ADDI R2, +2       ; R2 = i + 2   (5 + 2 = 7)
+4600    // LOADW R3          ; Load W[7] (should yield 0x1F = 31)
+02FF    // NOP
+E811    // LOADI R4, 17      ; LOADI R4, 17   (Kernel value 17)
+1700    // MUL R3, R4        ; Multiply: 31 * 17 = 527, product[14:7] = 4
+02FF    // NOP
+0AC0    // ADD R5, R3        ; R5 = 20 + 4 = 24
+02FF    // NOP
+
+02FF    // Final NOP
+3A00    // OUT R5            ; Output R5 (should output 24, i.e., 0x18)
+C000    // HALT
